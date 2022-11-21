@@ -26,13 +26,9 @@ export default function App() {
             path="/forgot-password"
             element={<ForgotPasswordForm />}
           ></Route>
+          {/* TODO: Add 404 Route<Route path="*" element={<NoFound />}></Route> */}
         </Routes>
       </Auth>
     </>
   );
-  // return (
-  //   <Auth>
-  //     <Login />
-  //   </Auth>
-  // );
 }
