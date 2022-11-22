@@ -10,12 +10,11 @@ import ForgotPasswordForm from "./pages/Auth/ForgotPassword";
 export default function App() {
   return (
     <>
-      <Routes>
-        <Route
-          path="/"
-          element={<Dashboard children="Main"></Dashboard>}
-        ></Route>
-      </Routes>
+      <Dashboard>
+        <Routes>
+          <Route path="/" element={"asdasd"}></Route>
+        </Routes>
+      </Dashboard>
       <Auth>
         <Routes>
           <Route path="/login" element={<Login />}></Route>
