@@ -1,11 +1,11 @@
 import Auth from "./layouts/Auth";
 import Dashboard from "./layouts/Dashboard";
-import Login from "./pages/Auth/Login";
+import Login from "./pages/auth/Login";
 import { Routes, Route } from "react-router-dom";
-import RegisterUser from "./pages/Auth/RegisterUser";
-import ResetPasswordForm from "./pages/Auth/ResetPasswordForm";
-import VerifyEmailForm from "./pages/Auth/VerifyEmailForm";
-import ForgotPasswordForm from "./pages/Auth/ForgotPassword";
+import RegisterUser from "./pages/auth/RegisterUser";
+import ResetPasswordForm from "./pages/auth/ResetPasswordForm";
+import VerifyEmailForm from "./pages/auth/VerifyEmailForm";
+import ForgotPasswordForm from "./pages/auth/ForgotPassword";
 
 export default function App() {
   return (
