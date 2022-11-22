@@ -12,7 +12,16 @@ export default function App() {
     <>
       <Dashboard>
         <Routes>
-          <Route path="/" element={"asdasd"}></Route>
+          <Route path="/" element={"asdasd"} />
+          <Route path="/accounts" element={"Acccount Overview"} />
+          <Route
+            path="/accounts/:accountId"
+            element={"Acccount Detailed View"}
+          />
+          <Route
+            path="accounts/:accountId/transactions/:transactionId"
+            element={"Transaction View"}
+          ></Route>
         </Routes>
       </Dashboard>
       <Auth>
