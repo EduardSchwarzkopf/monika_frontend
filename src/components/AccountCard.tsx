@@ -2,7 +2,6 @@ import {
     Card,
     CardHeader,
     CardBody,
-    CardFooter,
     Heading,
     Text,
     useColorModeValue,
@@ -14,12 +13,7 @@ import {
     HStack,
     Center,
 } from "@chakra-ui/react";
-import {
-    EmailIcon,
-    ArrowForwardIcon,
-    ArrowDownIcon,
-    ArrowUpIcon,
-} from "@chakra-ui/icons";
+import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 
 type AccountCardProps = {
     id: number;
