@@ -1,5 +1,5 @@
-import Auth from "./layouts/Auth";
-import Dashboard from "./layouts/Dashboard";
+import AuthLayout from "./layouts/AuthLayout";
+import DashboardLayout from "./layouts/DashboardLayout";
 import Login from "./views/auth/Login";
 import { Routes, Route } from "react-router-dom";
 import RegisterUser from "./views/auth/RegisterUser";
@@ -11,7 +11,7 @@ import Accounts from "./views/accounting/Accounts";
 export default function App() {
     return (
         <>
-            <Dashboard>
+            <DashboardLayout>
                 <Routes>
                     <Route path="/" element={<Accounts />} />
                     <Route path="/accounts" element={<Accounts />} />
@@ -24,8 +24,8 @@ export default function App() {
                         element={"Transaction View"}
                     ></Route>
                 </Routes>
-            </Dashboard>
-            <Auth>
+            </DashboardLayout>
+            <AuthLayout>
                 <Routes>
                     <Route path="/login" element={<Login />}></Route>
                     <Route path="/register" element={<RegisterUser />}></Route>
@@ -43,7 +43,7 @@ export default function App() {
                     ></Route>
                     {/* TODO: Add 404 Route<Route path="*" element={<NoFound />}></Route> */}
                 </Routes>
-            </Auth>
+            </AuthLayout>
         </>
     );
 }
