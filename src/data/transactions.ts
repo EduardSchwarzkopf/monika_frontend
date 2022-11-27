@@ -37,7 +37,7 @@ export default [
         id: 3,
         account_id: 1,
         information: {
-            amount: 80.0,
+            amount: -80.0,
             reference: "my super cool description",
             date: "2022-01-08T05:00:21.294000+00:00",
             subcategory_id: 1,
