@@ -14,6 +14,8 @@ import {
     Center,
 } from "@chakra-ui/react";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
+import transactionData from "../data/transactions";
+import { useEffect, useState } from "react";
 
 type AccountCardProps = {
     id: number;
@@ -23,6 +25,28 @@ type AccountCardProps = {
 };
 
 export const AccountCard = (props: AccountCardProps) => {
+    const [income, setIncome] = useState(0);
+    const [expenses, setExpenses] = useState(0);
+
+    // calculate income and expenses
+    useEffect(() => {
+        let income = 0;
+        let expenses = 0;
+
+        transactionData.map((transaction) => {
+            const amount = transaction.information.amount;
+
+            if (amount > 0) {
+                income += amount;
+            } else {
+                expenses += amount;
+            }
+        });
+
+        setIncome(income);
+        setExpenses(expenses);
+    }, []);
+
     return (
         <Card key={props.id} bg={useColorModeValue("white", "gray.800")}>
             <CardHeader>
@@ -55,7 +79,7 @@ export const AccountCard = (props: AccountCardProps) => {
                                 textColor="red.700"
                                 border="0"
                             >
-                                0€
+                                {expenses}€
                             </Button>
                             <Spacer />
                             <Button
@@ -65,7 +89,7 @@ export const AccountCard = (props: AccountCardProps) => {
                                 border="0"
                                 variant="outline"
                             >
-                                0€
+                                {income}€
                             </Button>
                         </HStack>
                     </Box>
