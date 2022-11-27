@@ -80,10 +80,7 @@ export const AccountCard = (props: AccountCardProps) => {
                                 textColor="red.700"
                                 size="lg"
                             >
-                                <TagLeftIcon
-                                    boxSize="12px"
-                                    as={ArrowDownIcon}
-                                />
+                                <TagLeftIcon boxSize="12px" as={ArrowUpIcon} />
                                 {expenses}€
                             </Tag>
                             <Spacer />
@@ -93,7 +90,10 @@ export const AccountCard = (props: AccountCardProps) => {
                                 variant="subtle"
                                 size="lg"
                             >
-                                <TagLeftIcon boxSize="12px" as={ArrowUpIcon} />
+                                <TagLeftIcon
+                                    boxSize="12px"
+                                    as={ArrowDownIcon}
+                                />
                                 {income}€
                             </Tag>
                         </HStack>
