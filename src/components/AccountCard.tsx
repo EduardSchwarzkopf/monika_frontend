@@ -12,6 +12,8 @@ import {
     Box,
     HStack,
     Center,
+    Tag,
+    TagLeftIcon,
 } from "@chakra-ui/react";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import transactionData from "../data/transactions";
@@ -72,25 +74,28 @@ export const AccountCard = (props: AccountCardProps) => {
                 <Center mt={8}>
                     <Box>
                         <HStack spacing={12}>
-                            <Button
-                                leftIcon={<ArrowDownIcon />}
-                                variant="outline"
+                            <Tag
+                                variant="subtle"
                                 bg="red.100"
                                 textColor="red.700"
-                                border="0"
+                                size="lg"
                             >
+                                <TagLeftIcon
+                                    boxSize="12px"
+                                    as={ArrowDownIcon}
+                                />
                                 {expenses}€
-                            </Button>
+                            </Tag>
                             <Spacer />
-                            <Button
-                                leftIcon={<ArrowUpIcon />}
+                            <Tag
                                 bg="green.100"
                                 textColor="green.700"
-                                border="0"
-                                variant="outline"
+                                variant="subtle"
+                                size="lg"
                             >
+                                <TagLeftIcon boxSize="12px" as={ArrowUpIcon} />
                                 {income}€
-                            </Button>
+                            </Tag>
                         </HStack>
                     </Box>
                 </Center>
