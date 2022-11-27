@@ -5,8 +5,6 @@ import { AccountCard } from "../../components/AccountCard";
 export default function Accounts() {
     let totalBalance = 0;
 
-    console.log("accounts mounted");
-
     return (
         <>
             <Box w="100%" p={4} mb={12} bg="white">
