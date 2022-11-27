@@ -6,18 +6,19 @@ import RegisterUser from "./views/auth/RegisterUser";
 import ResetPasswordForm from "./views/auth/ResetPasswordForm";
 import VerifyEmailForm from "./views/auth/VerifyEmailForm";
 import ForgotPasswordForm from "./views/auth/ForgotPassword";
-import Accounts from "./views/accounting/Accounts";
+import AccountListView from "./views/accounting/AccountListView";
+import AccountView from "./views/accounting/AccountView";
 
 export default function App() {
     return (
         <>
             <DashboardLayout>
                 <Routes>
-                    <Route path="/" element={<Accounts />} />
-                    <Route path="/accounts" element={<Accounts />} />
+                    <Route path="/" element={<AccountListView />} />
+                    <Route path="/accounts" element={<AccountListView />} />
                     <Route
                         path="/accounts/:accountId"
-                        element={"Acccount Detailed View"}
+                        element={<AccountView />}
                     />
                     <Route
                         path="accounts/:accountId/transactions/:transactionId"
