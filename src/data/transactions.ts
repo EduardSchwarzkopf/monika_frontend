@@ -55,7 +55,7 @@ export default [
         account_id: 1,
         information: {
             amount: -10.0,
-            reference: "my super cool description",
+            reference: "Schneemobilreinigungsrechnung",
             date: "2022-01-02T05:00:21.294000+00:00",
             subcategory_id: 1,
             subcategory: {
