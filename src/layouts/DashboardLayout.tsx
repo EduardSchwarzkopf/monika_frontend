@@ -34,6 +34,7 @@ import {
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
+import { Outlet } from "react-router-dom";
 
 interface LinkItemProps {
     name: string;
@@ -47,11 +48,7 @@ const LinkItems: Array<LinkItemProps> = [
     { name: "Settings", icon: FiSettings },
 ];
 
-export default function SidebarWithHeader({
-    children,
-}: {
-    children: ReactNode;
-}) {
+export default function SidebarWithHeader() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return (
         <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
@@ -75,7 +72,7 @@ export default function SidebarWithHeader({
             {/* mobilenav */}
             <MobileNav onOpen={onOpen} />
             <Box ml={{ base: 0, md: 60 }} p="4">
-                {children}
+                <Outlet />
             </Box>
         </Box>
     );
