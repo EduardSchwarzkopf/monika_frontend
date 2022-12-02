@@ -13,6 +13,7 @@ export default function Accounts() {
             <Stack spacing="4">
                 {accountList.map((item) => (
                     <AccountCard
+                        key={item.id}
                         id={item.id}
                         label={item.label}
                         description={item.description}
