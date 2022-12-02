@@ -11,12 +11,35 @@ import AccountView from "./views/accounting/AccountView";
 import { useEffect, useState } from "react";
 import ProtectedRoute from "./ProtectedRoute";
 import axios from "axios";
+import { useQuery } from "react-query";
+import { Spinner } from "@chakra-ui/react";
 
 export default function AppRouter() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    async function handleLogin() {
+    const {
+        data: userData,
+        isLoading,
+        isError,
+        error,
+    } = useQuery("authenticated", () => {
+        return axios.get("http://localhost:8000/users/me", {
+            withCredentials: true,
+        });
+    });
+
+    if (isLoading) {
+        return <Spinner />;
+    }
+
+    if (isError) {
+        return <h2>error</h2>;
+    }
+
+    setIsLoggedIn(userData?.status === 200);
+
+    async function handleLogin(username: string, password: string) {
         const response = await axios.post(
             "http://localhost:8000/auth/login",
             new URLSearchParams({

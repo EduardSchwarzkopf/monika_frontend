@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useQuery } from "react-query";
 import { Navigate, Outlet } from "react-router-dom";
 
 type ProtectedRouteProps = {
