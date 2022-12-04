@@ -1,8 +1,8 @@
-import accountList from "../../data/accounts";
 import { Stack, Box, Spinner } from "@chakra-ui/react";
 import { AccountCard } from "../../components/AccountCard";
 import { useQuery } from "react-query";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 export default function Accounts() {
     let totalBalance = 0;
@@ -15,8 +15,6 @@ export default function Accounts() {
     if (isLoading) {
         return <Spinner />;
     }
-
-    console.log({ data });
 
     return (
         <>
