@@ -8,13 +8,41 @@ import VerifyEmailForm from "./views/auth/VerifyEmailForm";
 import ForgotPasswordForm from "./views/auth/ForgotPassword";
 import AccountListView from "./views/accounting/AccountListView";
 import AccountView from "./views/accounting/AccountView";
-import ProtectedRoute from "./ProtectedRoute";
+import AuthRoute from "./AuthRoute";
+import { useQuery } from "react-query";
+import axios from "axios";
+import Loader from "./components/Loader";
 
 export default function AppRouter() {
+    const { isLoading, isSuccess, refetch } = useQuery(
+        "auth",
+        () => {
+            return axios.get("http://localhost:8000/users/me", {
+                withCredentials: true,
+            });
+        },
+        {
+            retry: false,
+            staleTime: Infinity,
+        }
+    );
+
+    if (isLoading) {
+        return <Loader />;
+    }
+
     return (
         <>
             <Routes>
-                <Route element={<ProtectedRoute />}>
+                <Route
+                    element={
+                        <AuthRoute
+                            canView={isSuccess}
+                            redirectTo="/login"
+                            replace
+                        />
+                    }
+                >
                     <Route element={<DashboardLayout />}>
                         <Route path="/" element={<AccountListView />} />
                         <Route path="/accounts" element={<AccountListView />} />
@@ -30,22 +58,38 @@ export default function AppRouter() {
                 </Route>
             </Routes>
             <Routes>
-                <Route element={<AuthLayout />}>
-                    <Route path="/login" element={<Login />}></Route>
-                    <Route path="/register" element={<RegisterUser />}></Route>
-                    <Route
-                        path="/reset-password"
-                        element={<ResetPasswordForm />}
-                    ></Route>
-                    <Route
-                        path="/verify-email"
-                        element={<VerifyEmailForm />}
-                    ></Route>
-                    <Route
-                        path="/forgot-password"
-                        element={<ForgotPasswordForm />}
-                    ></Route>
-                    {/* TODO: Add 404 Route<Route path="*" element={<NoFound />}></Route> */}
+                <Route
+                    element={
+                        <AuthRoute
+                            canView={!isSuccess}
+                            redirectTo="/"
+                            replace
+                        />
+                    }
+                >
+                    <Route element={<AuthLayout />}>
+                        <Route
+                            path="/login"
+                            element={<Login onLogin={refetch} />}
+                        ></Route>
+                        <Route
+                            path="/register"
+                            element={<RegisterUser />}
+                        ></Route>
+                        <Route
+                            path="/reset-password"
+                            element={<ResetPasswordForm />}
+                        ></Route>
+                        <Route
+                            path="/verify-email"
+                            element={<VerifyEmailForm />}
+                        ></Route>
+                        <Route
+                            path="/forgot-password"
+                            element={<ForgotPasswordForm />}
+                        ></Route>
+                        {/* TODO: Add 404 Route<Route path="*" element={<NoFound />}></Route> */}
+                    </Route>
                 </Route>
             </Routes>
         </>
