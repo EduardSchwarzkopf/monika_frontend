@@ -11,8 +11,55 @@ import {
     Text,
     useColorModeValue,
 } from "@chakra-ui/react";
+import axios from "axios";
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { Navigate } from "react-router-dom";
 
-function Login(props) {
+const authenticate = (username: string, password: string) => {
+    return axios.post(
+        "http://localhost:8000/auth/login",
+        new URLSearchParams({
+            username: username,
+            password: password,
+        }),
+        {
+            withCredentials: true,
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+        }
+    );
+};
+
+function Login() {
+    const [formData, setFormData] = useState({
+        username: "king.arthur@camelot.bt",
+        password: "guinevere",
+        rememberMe: false,
+    });
+
+    const { isSuccess, isError, refetch } = useQuery(
+        "login",
+        () => authenticate(formData.username, formData.password),
+        {
+            enabled: false,
+            retry: false,
+        }
+    );
+
+    if (isSuccess) {
+        return <Navigate to="/accounts" replace />;
+    }
+
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const { name, value, type, checked } = event.target;
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: type === "checkbox" ? checked : value,
+        }));
+    }
+
     return (
         <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
             <Stack align={"center"}>
@@ -31,11 +78,21 @@ function Login(props) {
                 <Stack spacing={4}>
                     <FormControl id="email">
                         <FormLabel>Email address</FormLabel>
-                        <Input type="email" />
+                        <Input
+                            type="email"
+                            name="username"
+                            onChange={handleChange}
+                            value={formData.username}
+                        />
                     </FormControl>
                     <FormControl id="password">
                         <FormLabel>Password</FormLabel>
-                        <Input type="password" />
+                        <Input
+                            type="password"
+                            name="password"
+                            onChange={handleChange}
+                            value={formData.password}
+                        />
                     </FormControl>
                     <Stack spacing={10}>
                         <Stack
@@ -52,7 +109,7 @@ function Login(props) {
                             _hover={{
                                 bg: "blue.500",
                             }}
-                            onClick={props.onLogin}
+                            onClick={refetch}
                         >
                             Sign in
                         </Button>
