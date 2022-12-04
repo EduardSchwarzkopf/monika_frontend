@@ -9,23 +9,11 @@ import ForgotPasswordForm from "./views/auth/ForgotPassword";
 import AccountListView from "./views/accounting/AccountListView";
 import AccountView from "./views/accounting/AccountView";
 import AuthRoute from "./AuthRoute";
-import { useQuery } from "react-query";
-import axios from "axios";
 import Loader from "./components/Loader";
+import { useAuthentication } from "./hooks/useAuthentication";
 
 export default function AppRouter() {
-    const { isLoading, isSuccess, refetch } = useQuery(
-        "auth",
-        () => {
-            return axios.get("http://localhost:8000/users/me", {
-                withCredentials: true,
-            });
-        },
-        {
-            retry: false,
-            staleTime: Infinity,
-        }
-    );
+    const { isLoading, isSuccess, refetch } = useAuthentication();
 
     if (isLoading) {
         return <Loader />;
