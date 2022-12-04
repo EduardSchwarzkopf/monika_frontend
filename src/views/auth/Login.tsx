@@ -32,7 +32,11 @@ const authenticate = (username: string, password: string) => {
     );
 };
 
-function Login() {
+type LoginProps = {
+    onLogin: Function;
+};
+
+function Login(props: LoginProps) {
     const [formData, setFormData] = useState({
         username: "king.arthur@camelot.bt",
         password: "guinevere",
@@ -49,6 +53,7 @@ function Login() {
     );
 
     if (isSuccess) {
+        props.onLogin();
         return <Navigate to="/accounts" replace />;
     }
 
