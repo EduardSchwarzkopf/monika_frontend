@@ -1,13 +1,22 @@
 import axios from "axios";
-import { useQuery } from "react-query";
+import { useState } from "react";
+import { isError, useQuery } from "react-query";
 import { Navigate, Outlet } from "react-router-dom";
 
-type ProtectedRouteProps = {
-    isLoggedIn: boolean;
-};
+export default function ProtectedRoute() {
+    const { isError } = useQuery(
+        "authenticated",
+        () => {
+            return axios.get("http://localhost:8000/users/me", {
+                withCredentials: true,
+            });
+        },
+        {
+            retry: false,
+        }
+    );
 
-export default function ProtectedRoute(props: ProtectedRouteProps) {
-    if (!props.isLoggedIn) {
+    if (isError) {
         return <Navigate to="/login" replace />;
     }
 
