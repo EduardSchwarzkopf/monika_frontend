@@ -1,23 +1,11 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { request } from "../service/request";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
 const useAuthContext = () => useContext(AuthContext);
 
 const AuthProvider = ({ children }) => {
-    const { isSuccess } = useQuery(
-        "auth",
-        () => {
-            return request({ url: "/users/me" });
-        },
-        {
-            retry: false,
-        }
-    );
-
-    const [isAuthenticated, setIsAuthenticated] = useState(isSuccess);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const updateIsAuthenticated = (value: boolean) => {
         setIsAuthenticated(value);

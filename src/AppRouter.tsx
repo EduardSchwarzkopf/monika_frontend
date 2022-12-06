@@ -10,11 +10,34 @@ import AccountListView from "./views/accounting/AccountListView";
 import AccountView from "./views/accounting/AccountView";
 import AuthRoute from "./AuthRoute";
 import { useAuthContext } from "./context/AuthContext";
+import { useQuery } from "react-query";
+import { request } from "./service/request";
+import { useUserContext } from "./context/UserContext";
+import Loader from "./components/Loader";
 
 export default function AppRouter() {
-    const { isAuthenticated } = useAuthContext();
+    const { setUser } = useUserContext();
+    const { isAuthenticated, updateIsAuthenticated } = useAuthContext();
 
-    console.log({ isAuthenticated });
+    const { data, isSuccess, isLoading } = useQuery(
+        "user",
+        () => {
+            return request({ url: "/users/me" });
+        },
+        {
+            retry: false,
+        }
+    );
+
+    if (isSuccess) {
+        setUser(data.data);
+        updateIsAuthenticated(true);
+    }
+
+    if (isLoading) {
+        return <Loader />;
+    }
+
     return (
         <>
             <Routes>

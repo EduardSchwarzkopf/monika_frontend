@@ -17,13 +17,6 @@ export default function Accounts() {
         return <Spinner />;
     }
 
-    if (isError) {
-        console.log(error.response);
-        if (error.response.status === 401) {
-            return <Navigate to="/login" replace />;
-        }
-    }
-
     return (
         <>
             <Box w="100%" p={4} mb={12} bg="white">

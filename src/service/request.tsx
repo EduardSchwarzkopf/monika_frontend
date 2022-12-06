@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { useAuthContext } from "../context/AuthContext";
 
 const URL =
     process.env.NODE_ENV === "production"

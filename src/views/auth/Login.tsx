@@ -15,6 +15,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { Navigate } from "react-router-dom";
+import Loader from "../../components/Loader";
 import { useAuthContext } from "../../context/AuthContext";
 
 const authenticate = (username: string, password: string) => {
@@ -42,7 +43,7 @@ function Login() {
         rememberMe: false,
     });
 
-    const { isSuccess, refetch } = useQuery(
+    const { data, isSuccess, isLoading, isFetching, refetch } = useQuery(
         "login",
         () => authenticate(formData.username, formData.password),
         {
@@ -53,6 +54,10 @@ function Login() {
 
     if (isSuccess) {
         updateIsAuthenticated(isSuccess);
+    }
+
+    if (isFetching || isLoading) {
+        return <Loader />;
     }
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
