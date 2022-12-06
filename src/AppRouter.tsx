@@ -12,16 +12,16 @@ import AuthRoute from "./AuthRoute";
 import { useAuthContext } from "./context/AuthContext";
 
 export default function AppRouter() {
-    const { user } = useAuthContext();
+    const { isAuthenticated } = useAuthContext();
 
-    console.log({ user });
+    console.log({ isAuthenticated });
     return (
         <>
             <Routes>
                 <Route
                     element={
                         <AuthRoute
-                            canView={!!user}
+                            canView={isAuthenticated}
                             redirectTo="/login"
                             replace
                         />
@@ -44,7 +44,11 @@ export default function AppRouter() {
             <Routes>
                 <Route
                     element={
-                        <AuthRoute canView={!!!user} redirectTo="/" replace />
+                        <AuthRoute
+                            canView={!isAuthenticated}
+                            redirectTo="/"
+                            replace
+                        />
                     }
                 >
                     <Route element={<AuthLayout />}>

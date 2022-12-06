@@ -4,24 +4,22 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { useAuthentication } from "../../hooks/useAuthentication";
+import { request } from "../../service/request";
 
 export default function Accounts() {
     let totalBalance = 0;
+
     const { isLoading, data, error, isError } = useQuery("accounts", () => {
-        return axios.get("http://localhost:8000/accounts", {
-            withCredentials: true,
-        });
+        return request({ url: "/accounts" });
     });
-    const { refetch } = useAuthentication();
 
     if (isLoading) {
         return <Spinner />;
     }
 
-    console.log(error);
     if (isError) {
+        console.log(error.response);
         if (error.response.status === 401) {
-            refetch();
             return <Navigate to="/login" replace />;
         }
     }

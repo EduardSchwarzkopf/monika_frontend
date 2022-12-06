@@ -2,8 +2,6 @@ import { useState } from "react";
 import { request } from "../service/request";
 
 export const useAuth = () => {
-    const [user, setUser] = useState(null);
-
     const signIn = async () => {
         try {
             const authresult = await request({ url: "/users/me" });

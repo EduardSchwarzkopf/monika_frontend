@@ -34,7 +34,7 @@ const authenticate = (username: string, password: string) => {
 };
 
 function Login() {
-    const { signIn } = useAuthContext();
+    const { updateIsAuthenticated } = useAuthContext();
 
     const [formData, setFormData] = useState({
         username: "king.arthur@camelot.bt",
@@ -52,9 +52,7 @@ function Login() {
     );
 
     if (isSuccess) {
-        signIn();
-        console.log("navigating now");
-        return <Navigate to="/accounts" replace />;
+        updateIsAuthenticated(isSuccess);
     }
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {

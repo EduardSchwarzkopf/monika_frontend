@@ -1,14 +1,34 @@
-import { createContext, useContext } from "react";
-import { useAuth } from "../hooks/useAuth";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { request } from "../service/request";
 
 const AuthContext = createContext();
 
 const useAuthContext = () => useContext(AuthContext);
 
 const AuthProvider = ({ children }) => {
-    const auth = useAuth();
+    const { isSuccess } = useQuery(
+        "auth",
+        () => {
+            return request({ url: "/users/me" });
+        },
+        {
+            retry: false,
+        }
+    );
 
-    return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+    const [isAuthenticated, setIsAuthenticated] = useState(isSuccess);
+
+    const updateIsAuthenticated = (value: boolean) => {
+        setIsAuthenticated(value);
+    };
+    return (
+        <AuthContext.Provider
+            value={{ isAuthenticated, updateIsAuthenticated }}
+        >
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
 export { useAuthContext, AuthProvider };
