@@ -26,6 +26,7 @@ export default function AppRouter() {
         },
         {
             retry: false,
+            staleTime: Infinity,
         }
     );
 
@@ -38,6 +39,7 @@ export default function AppRouter() {
         return <Loader />;
     }
 
+    console.log({ isAuthenticated });
     return (
         <>
             <Routes>

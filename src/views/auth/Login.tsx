@@ -13,8 +13,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
-import { useQuery } from "react-query";
-import { Navigate } from "react-router-dom";
+import { useQuery, useQueryClient } from "react-query";
 import Loader from "../../components/Loader";
 import { useAuthContext } from "../../context/AuthContext";
 
@@ -36,6 +35,7 @@ const authenticate = (username: string, password: string) => {
 
 function Login() {
     const { updateIsAuthenticated } = useAuthContext();
+    const queryClient = useQueryClient();
 
     const [formData, setFormData] = useState({
         username: "king.arthur@camelot.bt",
@@ -43,7 +43,7 @@ function Login() {
         rememberMe: false,
     });
 
-    const { data, isSuccess, isLoading, isFetching, refetch } = useQuery(
+    const { isSuccess, isLoading, isFetching, refetch } = useQuery(
         "login",
         () => authenticate(formData.username, formData.password),
         {
@@ -53,6 +53,7 @@ function Login() {
     );
 
     if (isSuccess) {
+        queryClient.resetQueries({ queryKey: ["login"] });
         updateIsAuthenticated(isSuccess);
     }
 

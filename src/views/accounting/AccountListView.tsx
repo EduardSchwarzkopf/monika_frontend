@@ -1,13 +1,15 @@
 import { Stack, Box, Spinner } from "@chakra-ui/react";
 import { AccountCard } from "../../components/AccountCard";
 import { useQuery } from "react-query";
-import axios from "axios";
-import { Navigate } from "react-router-dom";
-import { useAuthentication } from "../../hooks/useAuthentication";
 import { request } from "../../service/request";
+import { useAuthContext } from "../../context/AuthContext";
+import { Navigate } from "react-router-dom";
+import { useUserContext } from "../../context/UserContext";
 
 export default function Accounts() {
     let totalBalance = 0;
+    const { updateIsAuthenticated } = useAuthContext();
+    const { setUser } = useUserContext;
 
     const { isLoading, data, error, isError } = useQuery("accounts", () => {
         return request({ url: "/accounts" });
@@ -15,6 +17,12 @@ export default function Accounts() {
 
     if (isLoading) {
         return <Spinner />;
+    }
+
+    if (isError) {
+        if (error.status === 401) {
+            updateIsAuthenticated(false);
+        }
     }
 
     return (
