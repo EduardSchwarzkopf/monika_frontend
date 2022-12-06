@@ -33,7 +33,11 @@ const authenticate = (username: string, password: string) => {
     );
 };
 
-function Login() {
+type LoginProps = {
+    onLogin: Function;
+};
+
+function Login(props: LoginProps) {
     const { updateIsAuthenticated } = useAuthContext();
     const queryClient = useQueryClient();
 
@@ -53,7 +57,10 @@ function Login() {
     );
 
     if (isSuccess) {
+        console.log("logging successfull");
+        props.onLogin();
         queryClient.resetQueries({ queryKey: ["login"] });
+        queryClient.resetQueries({ queryKey: ["user"] });
         updateIsAuthenticated(isSuccess);
     }
 
