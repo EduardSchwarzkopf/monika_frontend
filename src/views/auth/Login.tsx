@@ -33,13 +33,8 @@ const authenticate = (username: string, password: string) => {
     );
 };
 
-type LoginProps = {
-    onLogin: Function;
-};
-
-function Login(props: LoginProps) {
+function Login() {
     const { updateIsAuthenticated } = useAuthContext();
-    const queryClient = useQueryClient();
 
     const [formData, setFormData] = useState({
         username: "king.arthur@camelot.bt",
@@ -47,22 +42,17 @@ function Login(props: LoginProps) {
         rememberMe: false,
     });
 
-    const { isSuccess, isLoading, isFetching, refetch } = useQuery(
+    const { isLoading, isFetching, refetch } = useQuery(
         "login",
         () => authenticate(formData.username, formData.password),
         {
             enabled: false,
             retry: false,
+            onSuccess: () => {
+                updateIsAuthenticated(true);
+            },
         }
     );
-
-    if (isSuccess) {
-        console.log("logging successfull");
-        props.onLogin();
-        queryClient.resetQueries({ queryKey: ["login"] });
-        queryClient.resetQueries({ queryKey: ["user"] });
-        updateIsAuthenticated(isSuccess);
-    }
 
     if (isFetching || isLoading) {
         return <Loader />;

@@ -16,10 +16,10 @@ import { useUserContext } from "./context/UserContext";
 import Loader from "./components/Loader";
 
 export default function AppRouter() {
-    const { user, setUser } = useUserContext();
+    const { setUser } = useUserContext();
     const { isAuthenticated, updateIsAuthenticated } = useAuthContext();
 
-    const { data, isSuccess, isLoading, refetch } = useQuery(
+    const { isLoading } = useQuery(
         "user",
         () => {
             return request({ url: "/users/me" });
@@ -27,20 +27,17 @@ export default function AppRouter() {
         {
             retry: false,
             staleTime: Infinity,
+            onSuccess: (data) => {
+                setUser(data.data);
+                updateIsAuthenticated(true);
+            },
         }
     );
-
-    if (isSuccess) {
-        console.log("user fetch successull");
-        setUser(data.data);
-        updateIsAuthenticated(true);
-    }
 
     if (isLoading) {
         return <Loader />;
     }
 
-    console.log({ user });
     return (
         <>
             <Routes>
@@ -66,8 +63,6 @@ export default function AppRouter() {
                         ></Route>
                     </Route>
                 </Route>
-            </Routes>
-            <Routes>
                 <Route
                     element={
                         <AuthRoute
@@ -78,10 +73,7 @@ export default function AppRouter() {
                     }
                 >
                     <Route element={<AuthLayout />}>
-                        <Route
-                            path="/login"
-                            element={<Login onLogin={refetch} />}
-                        ></Route>
+                        <Route path="/login" element={<Login />}></Route>
                         <Route
                             path="/register"
                             element={<RegisterUser />}
