@@ -18,6 +18,7 @@ export default function Accounts() {
         return <Spinner />;
     }
 
+    console.log(error);
     if (isError) {
         if (error.response.status === 401) {
             refetch();

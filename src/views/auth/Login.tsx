@@ -15,6 +15,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { Navigate } from "react-router-dom";
+import { useAuthContext } from "../../context/AuthContext";
 
 const authenticate = (username: string, password: string) => {
     return axios.post(
@@ -32,18 +33,16 @@ const authenticate = (username: string, password: string) => {
     );
 };
 
-type LoginProps = {
-    onLogin: Function;
-};
+function Login() {
+    const { signIn } = useAuthContext();
 
-function Login(props: LoginProps) {
     const [formData, setFormData] = useState({
         username: "king.arthur@camelot.bt",
         password: "guinevere",
         rememberMe: false,
     });
 
-    const { isSuccess, isError, refetch } = useQuery(
+    const { isSuccess, refetch } = useQuery(
         "login",
         () => authenticate(formData.username, formData.password),
         {
@@ -53,7 +52,8 @@ function Login(props: LoginProps) {
     );
 
     if (isSuccess) {
-        props.onLogin();
+        signIn();
+        console.log("navigating now");
         return <Navigate to="/accounts" replace />;
     }
 

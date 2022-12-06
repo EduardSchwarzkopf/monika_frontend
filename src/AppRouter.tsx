@@ -9,23 +9,19 @@ import ForgotPasswordForm from "./views/auth/ForgotPassword";
 import AccountListView from "./views/accounting/AccountListView";
 import AccountView from "./views/accounting/AccountView";
 import AuthRoute from "./AuthRoute";
-import Loader from "./components/Loader";
-import { useAuthentication } from "./hooks/useAuthentication";
+import { useAuthContext } from "./context/AuthContext";
 
 export default function AppRouter() {
-    const { isLoading, isSuccess, refetch } = useAuthentication();
+    const { user } = useAuthContext();
 
-    if (isLoading) {
-        return <Loader />;
-    }
-
+    console.log({ user });
     return (
         <>
             <Routes>
                 <Route
                     element={
                         <AuthRoute
-                            canView={isSuccess}
+                            canView={!!user}
                             redirectTo="/login"
                             replace
                         />
@@ -48,18 +44,11 @@ export default function AppRouter() {
             <Routes>
                 <Route
                     element={
-                        <AuthRoute
-                            canView={!isSuccess}
-                            redirectTo="/"
-                            replace
-                        />
+                        <AuthRoute canView={!!!user} redirectTo="/" replace />
                     }
                 >
                     <Route element={<AuthLayout />}>
-                        <Route
-                            path="/login"
-                            element={<Login onLogin={refetch} />}
-                        ></Route>
+                        <Route path="/login" element={<Login />}></Route>
                         <Route
                             path="/register"
                             element={<RegisterUser />}
