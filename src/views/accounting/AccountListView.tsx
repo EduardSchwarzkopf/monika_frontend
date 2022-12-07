@@ -1,10 +1,9 @@
 import { Stack, Box, Spinner } from "@chakra-ui/react";
 import { AccountCard } from "../../components/AccountCard";
 import { useQuery, useQueryClient } from "react-query";
-import { request } from "../../service/request";
 import { useAuthContext } from "../../context/AuthContext";
-import { Navigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserContext";
+import { AccountingService } from "../../service/accounting/AccountingService";
 
 export default function Accounts() {
     let totalBalance = 0;
@@ -13,7 +12,7 @@ export default function Accounts() {
     const queryClient = useQueryClient();
 
     const { isLoading, data, error, isError } = useQuery("accounts", () => {
-        return request({ url: "/accounts" });
+        return AccountingService.getAll();
     });
 
     if (isLoading) {
