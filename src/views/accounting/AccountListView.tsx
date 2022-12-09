@@ -1,5 +1,5 @@
 import { Stack, Box, Spinner } from "@chakra-ui/react";
-import { AccountCard } from "../../components/AccountCard";
+import { AccountCard, AccountCardProps } from "../../components/AccountCard";
 import { AccountingService } from "../../service/accounting/AccountingService";
 import { useBackendApi } from "../../hooks/useBackendApi";
 
@@ -20,7 +20,7 @@ export default function Accounts() {
                 Total: {totalBalance}€
             </Box>
             <Stack spacing="4">
-                {data?.data.map((item: any) => (
+                {data?.data.map((item: AccountCardProps) => (
                     <AccountCard
                         key={item.id}
                         id={item.id}
