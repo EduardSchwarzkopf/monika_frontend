@@ -19,7 +19,7 @@ import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import transactionData from "../data/transactions";
 import { useEffect, useState } from "react";
 
-type AccountCardProps = {
+export type AccountCardProps = {
     id: number;
     label: string;
     description: string;
