@@ -1,27 +1,29 @@
 import request from "./request";
 
+type idType = Number | string;
+
 export const BaseService = (endpoint: string) => {
-    const objectURL = (id: Number | string) => `${endpoint}/${id}`;
+    const objectURL = (id: idType) => `${endpoint}/${id}`;
 
     return {
         getAll: () => {
-            return request.get(endpoint + "/");
+            return request.get(endpoint);
         },
 
-        get: (accountId: Number) => {
-            return request.get(endpoint + accountId);
+        get: (id: idType) => {
+            return request.get(endpoint + id);
         },
 
-        add: (accountId: Number, data: object) => {
-            return request.post(objectURL(accountId), data);
+        add: (id: idType, data: object) => {
+            return request.post(objectURL(id), data);
         },
 
-        update: (accountId: Number, data: object) => {
-            return request.update(objectURL(accountId), data);
+        update: (id: idType, data: object) => {
+            return request.update(objectURL(id), data);
         },
 
-        delete: (accountId: Number, data: object) => {
-            return request.delete(objectURL(accountId), data);
+        delete: (id: idType, data: object) => {
+            return request.delete(objectURL(id), data);
         },
     };
 };
