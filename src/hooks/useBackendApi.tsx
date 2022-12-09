@@ -6,7 +6,7 @@ import { useUserContext } from "../context/UserContext";
 export const useBackendApi = (
     uniqueKey: string,
     request: QueryFunction,
-    onSuccess: any = null,
+    onSuccess: () => void = () => {},
     errorCallback: Function = () => {}
 ) => {
     const { updateIsAuthenticated } = useAuthContext();
@@ -20,9 +20,8 @@ export const useBackendApi = (
                 queryClient.resetQueries({ queryKey: ["user"] });
                 updateIsAuthenticated(false);
                 setUser(null);
-
-                errorCallback();
             }
+            errorCallback();
         },
     });
 };
