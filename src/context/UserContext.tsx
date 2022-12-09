@@ -1,11 +1,16 @@
 import { createContext, useContext, useState } from "react";
+import { ChildrenProp } from "../types/ReactTypes";
 
 type UserContextType = {
-    email: string;
-    id: string;
-    is_active: boolean;
-    is_superuser: boolean;
-    is_verified: boolean;
+    user: {
+        email: string;
+        id: string;
+        is_active: boolean;
+        is_superuser: boolean;
+        is_verified: boolean;
+    };
+    updateUser: Function;
+    setUser: Function;
 };
 
 const EmptyUser = {
@@ -16,17 +21,17 @@ const EmptyUser = {
     is_verified: false,
 };
 
-const UserContext = createContext<UserContextType>(EmptyUser);
+const UserContext = createContext<UserContextType>({
+    user: EmptyUser,
+    updateUser: () => {},
+    setUser: () => {},
+});
 
-const useUserContext = () => useContext(UserContext);
-
-type Props = {
-    children?: React.ReactNode;
-};
+const useUserContext = (): UserContextType => useContext(UserContext);
 
 type userValueProp = string | Number | boolean | object;
 
-const UserProvider = ({ children }: Props) => {
+const UserProvider = ({ children }: ChildrenProp) => {
     const [user, setUser] = useState(EmptyUser);
 
     const updateUser = (key: string, value: userValueProp) => {
