@@ -11,9 +11,9 @@ import AccountView from "./views/accounting/AccountView";
 import AuthRoute from "./AuthRoute";
 import { useAuthContext } from "./context/AuthContext";
 import { useQuery } from "react-query";
-import { request } from "./service/request";
 import { useUserContext } from "./context/UserContext";
 import Loader from "./components/Loader";
+import { UsersService } from "./service/Users/UsersService";
 
 export default function AppRouter() {
     const { setUser } = useUserContext();
@@ -22,7 +22,7 @@ export default function AppRouter() {
     const { isLoading } = useQuery(
         "user",
         () => {
-            return request({ url: "/users/me" });
+            return UsersService.get("me");
         },
         {
             retry: false,
