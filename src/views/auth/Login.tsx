@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import Loader from "../../components/Loader";
 import { useAuthContext } from "../../context/AuthContext";
 
