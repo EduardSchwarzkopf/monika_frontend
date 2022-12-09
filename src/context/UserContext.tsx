@@ -1,13 +1,35 @@
 import { createContext, useContext, useState } from "react";
 
-const UserContext = createContext();
+type UserContextType = {
+    email: string;
+    id: string;
+    is_active: boolean;
+    is_superuser: boolean;
+    is_verified: boolean;
+};
+
+const EmptyUser = {
+    email: "",
+    id: "",
+    is_active: false,
+    is_superuser: false,
+    is_verified: false,
+};
+
+const UserContext = createContext<UserContextType>(EmptyUser);
 
 const useUserContext = () => useContext(UserContext);
 
-const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+type Props = {
+    children?: React.ReactNode;
+};
 
-    const updateUser = (key, value) => {
+type userValueProp = string | Number | boolean | object;
+
+const UserProvider = ({ children }: Props) => {
+    const [user, setUser] = useState(EmptyUser);
+
+    const updateUser = (key: string, value: userValueProp) => {
         setUser((prevUser) => ({ ...prevUser, [key]: value }));
     };
 
