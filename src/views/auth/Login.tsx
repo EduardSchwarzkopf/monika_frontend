@@ -115,7 +115,7 @@ function Login() {
                             _hover={{
                                 bg: "blue.500",
                             }}
-                            onClick={refetch}
+                            onClick={() => refetch()}
                         >
                             Sign in
                         </Button>
