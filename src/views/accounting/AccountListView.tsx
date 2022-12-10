@@ -6,7 +6,7 @@ import { useBackendApi } from "../../hooks/useBackendApi";
 export default function Accounts() {
     let totalBalance = 0;
 
-    const { isLoading, data } = useBackendApi("accounts", () => {
+    const { isLoading, data } = useBackendApi("accountList", () => {
         return AccountingService.getAll();
     });
 
