@@ -15,22 +15,30 @@ import GreenArrowUpTag from "../../components/GreenArrowDownTag";
 import RedArrowDownTag from "../../components/RedArrowUpTag";
 import { useBackendApi } from "../../hooks/useBackendApi";
 import { AccountingService } from "../../service/accounting/AccountingService";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 
 export default function AccountView() {
     const { accountId } = useParams();
+    const navigate = useNavigate();
+
     const bg = useColorModeValue("white", "gray.800");
+
+    const navigateToOverview = () => navigate("/accounts");
 
     if (accountId === undefined) {
         // TODO: handle wrong or no accountId provided
-        console.log("wrong or no account id provided");
-        return null;
+        return navigateToOverview();
     }
 
-    const { isLoading, data } = useBackendApi("account", () => {
-        return AccountingService.get(parseInt(accountId));
-    });
+    const { isLoading, data } = useBackendApi(
+        "account",
+        () => {
+            return AccountingService.get(parseInt(accountId));
+        },
+        undefined,
+        navigateToOverview
+    );
 
     if (isLoading) {
         return <Loader />;
