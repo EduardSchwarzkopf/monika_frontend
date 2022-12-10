@@ -1,4 +1,3 @@
-import accountList from "../../data/accounts";
 import { AccountCard } from "../../components/AccountCard";
 import transactionData from "../../data/transactions";
 import {
@@ -14,17 +13,33 @@ import {
 } from "@chakra-ui/react";
 import GreenArrowUpTag from "../../components/GreenArrowDownTag";
 import RedArrowDownTag from "../../components/RedArrowUpTag";
+import { useBackendApi } from "../../hooks/useBackendApi";
+import { AccountingService } from "../../service/accounting/AccountingService";
+import { useParams } from "react-router-dom";
+import Loader from "../../components/Loader";
 
 export default function AccountView() {
-    let account = accountList[0];
+    const { accountId } = useParams();
+    const bg = useColorModeValue("white", "gray.800");
+
+    if (accountId === undefined) {
+        // TODO: handle wrong or no accountId provided
+        console.log("wrong or no account id provided");
+        return null;
+    }
+
+    const { isLoading, data } = useBackendApi("account", () => {
+        return AccountingService.get(parseInt(accountId));
+    });
+
+    if (isLoading) {
+        return <Loader />;
+    }
 
     const transactionCardList = transactionData.map((transaction) => {
         const isPositive = transaction.information.amount > 0;
         return (
-            <Card
-                key={transaction.id}
-                bg={useColorModeValue("white", "gray.800")}
-            >
+            <Card key={transaction.id} bg={bg}>
                 <CardBody>
                     <Box>
                         <Flex alignItems="center">
@@ -77,14 +92,15 @@ export default function AccountView() {
             </Card>
         );
     });
+
     return (
         <>
             <Stack spacing="12">
                 <AccountCard
-                    id={account.id}
-                    label={account.label}
-                    description={account.description}
-                    balance={account.balance}
+                    id={data?.data.id}
+                    label={data?.data.label}
+                    description={data?.data.description}
+                    balance={data?.data.balance}
                 />
                 <Box>
                     <Heading>Transactions</Heading>
