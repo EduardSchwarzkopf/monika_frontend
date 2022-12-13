@@ -8,24 +8,10 @@ import {
     Text,
     useColorModeValue,
 } from "@chakra-ui/react";
+import { TransactionType } from "../types/ReactTypes";
 import GreenArrowDownTag from "./GreenArrowDownTag";
 import RedArrowUpTag from "./RedArrowUpTag";
 
-type TransactionType = {
-    id: number;
-    label: string;
-    description: string;
-    balance: number;
-    information: {
-        reference: string;
-        amount: Number;
-        date: Date;
-        subcategory: {
-            id: number;
-            label: string;
-        };
-    };
-};
 export const TransactionCard = (props: TransactionType) => {
     const isPositive = props.information.amount > 0;
     const bg = useColorModeValue("white", "gray.800");
