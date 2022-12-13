@@ -1,33 +1,19 @@
 import { AccountCard } from "../../components/AccountCard";
-import transactionData from "../../data/transactions";
-import {
-    Card,
-    CardBody,
-    Heading,
-    useColorModeValue,
-    Flex,
-    Spacer,
-    Box,
-    Text,
-    Stack,
-} from "@chakra-ui/react";
-import GreenArrowUpTag from "../../components/GreenArrowDownTag";
-import RedArrowDownTag from "../../components/RedArrowUpTag";
+import { Heading, Box, Stack } from "@chakra-ui/react";
 import { useBackendApi } from "../../hooks/useBackendApi";
 import { AccountingService } from "../../service/accounting/AccountingService";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
+import { TransactionCard } from "../../components/TransactionCard";
+import { TransactionsService } from "../../service/accounting/TransactionsService";
 
 export default function AccountView() {
     const { accountId } = useParams();
     const navigate = useNavigate();
 
-    const bg = useColorModeValue("white", "gray.800");
-
     const navigateToOverview = () => navigate("/accounts");
 
     if (accountId === undefined) {
-        // TODO: handle wrong or no accountId provided
         return navigateToOverview();
     }
 
@@ -40,66 +26,30 @@ export default function AccountView() {
         navigateToOverview
     );
 
+    const { isSuccess, data: transactionData } = useBackendApi(
+        "transactions",
+        () => {
+            return TransactionsService.getAll({
+                account_id: accountId,
+                date_start: "2022-01-02T05:00:21.294Z",
+                date_end: "2022-02-01T07:00:21.294Z",
+            });
+        },
+        undefined,
+        navigateToOverview
+    );
+
     if (isLoading) {
         return <Loader />;
     }
 
-    const transactionCardList = transactionData.map((transaction) => {
-        const isPositive = transaction.information.amount > 0;
-        return (
-            <Card key={transaction.id} bg={bg}>
-                <CardBody>
-                    <Box>
-                        <Flex alignItems="center">
-                            <Box mr="8">
-                                {isPositive ? (
-                                    <GreenArrowUpTag />
-                                ) : (
-                                    <RedArrowDownTag />
-                                )}
-                            </Box>
-                            <Box maxW={"50%"}>
-                                <Heading fontSize={"lg"} fontFamily={"body"}>
-                                    {transaction.information.reference}
-                                </Heading>
-                                <Text
-                                    fontWeight={600}
-                                    color={"gray.400"}
-                                    mb={4}
-                                >
-                                    {transaction.information.subcategory.label}
-                                </Text>
-                            </Box>
-                            <Spacer />
-                            <Box>
-                                <Heading
-                                    as="h4"
-                                    size="md"
-                                    textColor={
-                                        isPositive ? "green.400" : "red.400"
-                                    }
-                                >
-                                    {transaction.information.amount}€
-                                </Heading>
-                                <Text
-                                    fontWeight={600}
-                                    color={"gray.400"}
-                                    mb={4}
-                                >
-                                    {new Date(
-                                        transaction.information.date
-                                    ).toLocaleDateString(undefined, {
-                                        month: "short",
-                                        day: "numeric",
-                                    })}
-                                </Text>
-                            </Box>
-                        </Flex>
-                    </Box>
-                </CardBody>
-            </Card>
-        );
-    });
+    let transactionCardList = <Loader />;
+    if (isSuccess) {
+        transactionCardList = transactionData.data.map((data) => {
+            console.log(data);
+            return <TransactionCard {...data} />;
+        });
+    }
 
     return (
         <>
