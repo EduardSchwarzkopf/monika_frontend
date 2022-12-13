@@ -25,8 +25,8 @@ const mutationRequest = (endpoint: string, data: object, method: string) => {
 };
 
 export default {
-    get: (endpoint: string) => {
-        return request({ url: endpoint });
+    get: (endpoint: string, parameter: object = {}) => {
+        return request({ url: endpoint, params: { ...parameter } });
     },
 
     post: (endpoint: string, data: object) => {
