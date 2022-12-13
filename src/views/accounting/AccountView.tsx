@@ -5,17 +5,18 @@ import Loader from "../../components/Loader";
 import { TransactionCard } from "../../components/TransactionCard";
 import { useAccount } from "../../hooks/useAccounts";
 import { useTransactions } from "../../hooks/useTransactions";
+import { TransactionType } from "../../types/ReactTypes";
 
 export default function AccountView() {
     const { accountId } = useParams();
-
     const navigate = useNavigate();
-
     const navigateToOverview = () => navigate("/accounts");
 
     if (accountId === undefined) {
-        return navigateToOverview();
+        navigateToOverview();
+        return <></>;
     }
+
     const accountIdInt = parseInt(accountId);
 
     const { isLoading, data } = useAccount(
@@ -24,24 +25,10 @@ export default function AccountView() {
         navigateToOverview
     );
 
-    const { isSuccess, data: transactionData } = useTransactions(
-        accountIdInt,
-        new Date("2022-01-02T05:00:21.294Z"),
-        new Date("2022-02-01T07:00:21.294Z"),
-        undefined,
-        navigateToOverview
-    );
+    const { transactionList, isSuccess } = useTransactions(accountIdInt);
 
     if (isLoading) {
         return <Loader />;
-    }
-
-    let transactionCardList = <Loader />;
-    if (isSuccess) {
-        transactionCardList = transactionData.data.map((data) => {
-            console.log(data);
-            return <TransactionCard {...data} />;
-        });
     }
 
     return (
@@ -56,7 +43,17 @@ export default function AccountView() {
                 <Box>
                     <Heading>Transactions</Heading>
                     Dateplaceholer
-                    <Stack spacing="4">{transactionCardList}</Stack>
+                    <Stack spacing="4">
+                        {isSuccess ? (
+                            transactionList.map((data: TransactionType) => {
+                                return (
+                                    <TransactionCard key={data.id} {...data} />
+                                );
+                            })
+                        ) : (
+                            <Loader />
+                        )}
+                    </Stack>
                 </Box>
             </Stack>
         </>
