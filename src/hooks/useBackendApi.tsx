@@ -6,7 +6,7 @@ import { useUserContext } from "../context/UserContext";
 export const useBackendApi = (
     uniqueKey: string,
     request: QueryFunction,
-    onSuccess: () => void = () => {},
+    onSuccess: (data: unknown) => void = () => {},
     errorCallback: Function = () => {}
 ) => {
     const { updateIsAuthenticated } = useAuthContext();
