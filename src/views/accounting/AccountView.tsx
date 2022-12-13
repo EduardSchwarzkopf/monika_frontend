@@ -1,14 +1,14 @@
 import { AccountCard } from "../../components/AccountCard";
 import { Heading, Box, Stack } from "@chakra-ui/react";
-import { useBackendApi } from "../../hooks/useBackendApi";
-import { AccountingService } from "../../service/accounting/AccountingService";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 import { TransactionCard } from "../../components/TransactionCard";
-import { TransactionsService } from "../../service/accounting/TransactionsService";
+import { useAccount } from "../../hooks/useAccounts";
+import { useTransactions } from "../../hooks/useTransactions";
 
 export default function AccountView() {
     const { accountId } = useParams();
+
     const navigate = useNavigate();
 
     const navigateToOverview = () => navigate("/accounts");
@@ -16,25 +16,18 @@ export default function AccountView() {
     if (accountId === undefined) {
         return navigateToOverview();
     }
+    const accountIdInt = parseInt(accountId);
 
-    const { isLoading, data } = useBackendApi(
-        "account",
-        () => {
-            return AccountingService.get(parseInt(accountId));
-        },
+    const { isLoading, data } = useAccount(
+        accountIdInt,
         undefined,
         navigateToOverview
     );
 
-    const { isSuccess, data: transactionData } = useBackendApi(
-        "transactions",
-        () => {
-            return TransactionsService.getAll({
-                account_id: accountId,
-                date_start: "2022-01-02T05:00:21.294Z",
-                date_end: "2022-02-01T07:00:21.294Z",
-            });
-        },
+    const { isSuccess, data: transactionData } = useTransactions(
+        accountIdInt,
+        new Date("2022-01-02T05:00:21.294Z"),
+        new Date("2022-02-01T07:00:21.294Z"),
         undefined,
         navigateToOverview
     );
