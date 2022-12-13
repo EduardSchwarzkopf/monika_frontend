@@ -1,14 +1,11 @@
 import { Stack, Box, Spinner } from "@chakra-ui/react";
 import { AccountCard, AccountCardProps } from "../../components/AccountCard";
-import { AccountingService } from "../../service/accounting/AccountingService";
-import { useBackendApi } from "../../hooks/useBackendApi";
+import { useAccountList } from "../../hooks/useAccounts";
 
 export default function Accounts() {
     let totalBalance = 0;
 
-    const { isLoading, data } = useBackendApi("accountList", () => {
-        return AccountingService.getAll();
-    });
+    const { isLoading, data } = useAccountList();
 
     if (isLoading) {
         return <Spinner />;
