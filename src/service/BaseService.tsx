@@ -6,12 +6,12 @@ export const BaseService = (endpoint: string) => {
     const objectURL = (id: idType) => `${endpoint}/${id}`;
 
     return {
-        getAll: () => {
-            return request.get(endpoint);
+        getAll: (parameter: object = {}) => {
+            return request.get(endpoint, parameter);
         },
 
-        get: (id: idType) => {
-            return request.get(endpoint + id);
+        get: (id: idType, parameter: object = {}) => {
+            return request.get(objectURL(id), parameter);
         },
 
         add: (id: idType, data: object) => {
