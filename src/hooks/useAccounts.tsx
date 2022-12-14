@@ -15,7 +15,7 @@ export const useAccount = ({
     onSuccess = () => {},
     onError = () => {},
 }: {
-    accountId: Number;
+    accountId: Number | string;
     onSuccess?: () => void;
     onError?: () => void;
 }) => {
