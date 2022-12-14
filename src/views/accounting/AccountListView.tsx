@@ -1,35 +1,49 @@
-import { Stack, Box, Spinner } from "@chakra-ui/react";
+import {
+    Stack,
+    Spinner,
+    Card,
+    CardBody,
+    Text,
+    useColorModeValue,
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { AccountCard, AccountCardProps } from "../../components/AccountCard";
-import { AccountingService } from "../../service/accounting/AccountingService";
-import { useBackendApi } from "../../hooks/useBackendApi";
+import { useAccountList } from "../../hooks/useAccounts";
 
 export default function Accounts() {
-    let totalBalance = 0;
+    const { isLoading, data } = useAccountList();
+    const [total, setTotal] = useState(0);
 
-    const { isLoading, data } = useBackendApi("accounts", () => {
-        return AccountingService.getAll();
-    });
+    useEffect(() => {
+        let totalAmount = 0;
+
+        data?.data.forEach((element: AccountCardProps) => {
+            totalAmount += element.balance;
+        });
+
+        setTotal(totalAmount);
+    }, [data]);
 
     if (isLoading) {
         return <Spinner />;
     }
-
     return (
-        <>
-            <Box w="100%" p={4} mb={12} bg="white">
-                Total: {totalBalance}€
-            </Box>
-            <Stack spacing="4">
-                {data?.data.map((item: AccountCardProps) => (
-                    <AccountCard
-                        key={item.id}
-                        id={item.id}
-                        label={item.label}
-                        description={item.description}
-                        balance={item.balance}
-                    />
-                ))}
-            </Stack>
-        </>
+        <Stack spacing="4">
+            <Card bg={useColorModeValue("white", "gray.800")}>
+                <CardBody>
+                    <Text>Total: {total}€</Text>
+                </CardBody>
+            </Card>
+
+            {data?.data.map((item: AccountCardProps) => (
+                <AccountCard
+                    key={item.id}
+                    id={item.id}
+                    label={item.label}
+                    description={item.description}
+                    balance={item.balance}
+                />
+            ))}
+        </Stack>
     );
 }

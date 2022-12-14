@@ -1,5 +1,5 @@
 import { BaseService } from "../BaseService";
 
-const endpoint = "/users/";
+const endpoint = "/users";
 
 export const UsersService = BaseService(endpoint);

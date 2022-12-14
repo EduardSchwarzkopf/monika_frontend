@@ -3,12 +3,17 @@ import { QueryFunction, useQuery, useQueryClient } from "react-query";
 import { useAuthContext } from "../context/AuthContext";
 import { useUserContext } from "../context/UserContext";
 
-export const useBackendApi = (
-    uniqueKey: string,
-    request: QueryFunction,
-    onSuccess: () => void = () => {},
-    errorCallback: Function = () => {}
-) => {
+export const useBackendApi = ({
+    uniqueKey,
+    request,
+    onSuccess = () => {},
+    errorCallback = () => {},
+}: {
+    uniqueKey: string;
+    request: QueryFunction;
+    onSuccess?: (data: unknown) => void;
+    errorCallback?: () => void;
+}) => {
     const { updateIsAuthenticated } = useAuthContext();
     const { setUser } = useUserContext();
     const queryClient = useQueryClient();
@@ -22,6 +27,8 @@ export const useBackendApi = (
                 setUser(null);
             }
             errorCallback();
+
+            return error;
         },
     });
 };
