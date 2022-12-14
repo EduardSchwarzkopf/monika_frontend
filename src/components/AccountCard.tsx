@@ -5,8 +5,6 @@ import {
     Heading,
     Text,
     useColorModeValue,
-    Stack,
-    Button,
     Flex,
     Spacer,
     Box,
@@ -24,6 +22,8 @@ export type AccountCardProps = {
     label: string;
     description: string;
     balance: number;
+    onClick?: () => void | Function;
+    styles?: {};
 };
 
 export const AccountCard = (props: AccountCardProps) => {
@@ -51,22 +51,17 @@ export const AccountCard = (props: AccountCardProps) => {
     }, [transactionList]);
 
     return (
-        <Card key={props.id} bg={useColorModeValue("white", "gray.800")}>
+        <Card
+            key={props.id}
+            bg={useColorModeValue("white", "gray.800")}
+            onClick={props.onClick}
+            {...props.styles}
+        >
             <CardHeader>
                 <Flex>
                     <Box>
                         <Heading size="md">{props.label}</Heading>
                     </Box>
-                    <Spacer />
-
-                    <Stack direction="row" spacing={4}>
-                        <Button colorScheme="teal" variant="outline" size="sm">
-                            details
-                        </Button>
-                        <Button colorScheme="teal" variant="solid" size="sm">
-                            book
-                        </Button>
-                    </Stack>
                 </Flex>
                 <Text>{props.description}</Text>
             </CardHeader>
