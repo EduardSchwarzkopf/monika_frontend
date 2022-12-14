@@ -9,17 +9,17 @@ export const useTransactions = (accountId: number) => {
     const date_start = new Date("2022-01-02T05:00:21.294Z");
     const date_end = new Date("2022-02-01T07:00:21.294Z");
 
-    const { isSuccess, isError, isLoading, error } = useBackendApi(
-        `transactions_${accountId}`,
-        () => {
+    const { isSuccess, isError, isLoading, error } = useBackendApi({
+        uniqueKey: `transactions_${accountId}`,
+        request: () => {
             return TransactionsService.getAll({
                 account_id: accountId,
                 date_start: date_start.toISOString(),
                 date_end: date_end.toISOString(),
             });
         },
-        (data) => setTransactionList(data?.data)
-    );
+        onSuccess: (data) => setTransactionList(data?.data),
+    });
 
     return { transactionList, isSuccess, isError, isLoading, error };
 };

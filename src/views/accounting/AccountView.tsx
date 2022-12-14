@@ -19,11 +19,10 @@ export default function AccountView() {
 
     const accountIdInt = parseInt(accountId);
 
-    const { isLoading, data } = useAccount(
-        accountIdInt,
-        undefined,
-        navigateToOverview
-    );
+    const { isLoading, data } = useAccount({
+        accountId: accountIdInt,
+        onError: navigateToOverview,
+    });
 
     const { transactionList, isSuccess } = useTransactions(accountIdInt);
 

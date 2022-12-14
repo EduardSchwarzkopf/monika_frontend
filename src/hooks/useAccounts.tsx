@@ -2,22 +2,29 @@ import { AccountingService } from "../service/accounting/AccountingService";
 import { useBackendApi } from "./useBackendApi";
 
 export const useAccountList = () => {
-    return useBackendApi("accountList", () => {
-        return AccountingService.getAll();
+    return useBackendApi({
+        uniqueKey: "accountList",
+        request: () => {
+            return AccountingService.getAll();
+        },
     });
 };
 
-export const useAccount = (
-    accountId: Number,
-    onSuccess: () => void = () => {},
-    onError: () => void = () => {}
-) => {
-    return useBackendApi(
-        "account",
-        () => {
+export const useAccount = ({
+    accountId,
+    onSuccess = () => {},
+    onError = () => {},
+}: {
+    accountId: Number;
+    onSuccess?: () => void;
+    onError?: () => void;
+}) => {
+    return useBackendApi({
+        uniqueKey: "account",
+        request: () => {
             return AccountingService.get(accountId);
         },
         onSuccess,
-        onError
-    );
+        errorCallback: onError,
+    });
 };
