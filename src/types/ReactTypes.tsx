@@ -9,7 +9,7 @@ export type TransactionType = {
     balance: number;
     information: {
         reference: string;
-        amount: Number;
+        amount: number;
         date: Date;
         subcategory: {
             id: number;
