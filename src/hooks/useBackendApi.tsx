@@ -8,17 +8,20 @@ export const useBackendApi = ({
     request,
     onSuccess = () => {},
     errorCallback = () => {},
+    staleTime = Infinity,
 }: {
-    uniqueKey: string;
+    uniqueKey: string | (string | number)[];
     request: QueryFunction;
     onSuccess?: (data: unknown) => void;
     errorCallback?: () => void;
+    staleTime?: number;
 }) => {
     const { updateIsAuthenticated } = useAuthContext();
     const { setUser } = useUserContext();
     const queryClient = useQueryClient();
 
     return useQuery(uniqueKey, request, {
+        staleTime: staleTime,
         onSuccess,
         onError: (error: AxiosError) => {
             if (error.status === 401) {
