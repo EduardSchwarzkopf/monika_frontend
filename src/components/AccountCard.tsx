@@ -16,6 +16,7 @@ import {
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { useTransactions } from "../hooks/useTransactions";
+import { TransactionType } from "../types/ReactTypes";
 
 export type AccountCardProps = {
     id: number;
@@ -29,14 +30,14 @@ export type AccountCardProps = {
 export const AccountCard = (props: AccountCardProps) => {
     const [income, setIncome] = useState(0);
     const [expenses, setExpenses] = useState(0);
-    const { transactionList } = useTransactions(props.id);
+    const { data } = useTransactions(props.id);
 
     // calculate income and expenses
     useEffect(() => {
         let income = 0;
         let expenses = 0;
 
-        transactionList.map((transaction) => {
+        data?.data.map((transaction: TransactionType) => {
             const amount = transaction.information.amount;
 
             if (amount > 0) {
@@ -48,7 +49,7 @@ export const AccountCard = (props: AccountCardProps) => {
 
         setIncome(income);
         setExpenses(expenses);
-    }, [transactionList]);
+    }, [data]);
 
     return (
         <Card
