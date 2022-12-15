@@ -11,10 +11,11 @@ import { useNavigate } from "react-router-dom";
 import { AccountCard, AccountCardProps } from "../../components/AccountCard";
 import { useAccountList } from "../../hooks/useAccounts";
 
-export default function Accounts() {
+export function AccountListView() {
     const { isLoading, data } = useAccountList();
     const [total, setTotal] = useState(0);
     const navigate = useNavigate();
+    const bgColor = useColorModeValue("white", "gray.800");
 
     useEffect(() => {
         let totalAmount = 0;
@@ -31,7 +32,7 @@ export default function Accounts() {
     }
     return (
         <Stack spacing="4">
-            <Card bg={useColorModeValue("white", "gray.800")}>
+            <Card bg={bgColor}>
                 <CardBody>
                     <Text>Total: {total}€</Text>
                 </CardBody>
