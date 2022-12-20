@@ -6,7 +6,7 @@ import RegisterUser from "./views/auth/RegisterUser";
 import ResetPasswordForm from "./views/auth/ResetPasswordForm";
 import VerifyEmailForm from "./views/auth/VerifyEmailForm";
 import ForgotPasswordForm from "./views/auth/ForgotPassword";
-import AccountListView from "./views/accounting/AccountListView";
+import { AccountListView } from "./views/accounting/AccountListView";
 import AccountView from "./views/accounting/AccountView";
 import AuthRoute from "./AuthRoute";
 import { useAuthContext } from "./context/AuthContext";

@@ -47,11 +47,16 @@ export default function AccountView() {
                     Dateplaceholer
                     <Stack spacing="4">
                         {isSuccess ? (
-                            transactionList.map((data: TransactionType) => {
-                                return (
-                                    <TransactionCard key={data.id} {...data} />
-                                );
-                            })
+                            transactionList?.data.map(
+                                (data: TransactionType) => {
+                                    return (
+                                        <TransactionCard
+                                            key={data.id}
+                                            {...data}
+                                        />
+                                    );
+                                }
+                            )
                         ) : (
                             <Loader />
                         )}

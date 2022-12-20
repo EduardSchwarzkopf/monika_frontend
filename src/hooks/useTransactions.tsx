@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { TransactionsService } from "../service/accounting/TransactionsService";
 import { getDateFromCookie } from "../utils/CookieUtil";
 import { useBackendApi } from "./useBackendApi";
@@ -22,8 +21,6 @@ export const useTransactions = (accountId: number) => {
                 date_end: endOfMonth.toISOString(),
             });
         },
-        onSuccess: (data) => setTransactionList(data?.data),
     });
-
     return { transactionList, isSuccess, isError, isLoading, error, refetch };
 };
