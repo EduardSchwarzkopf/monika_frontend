@@ -5,13 +5,20 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../datepicker.scss";
 import { getDateFromCookie, setDateCookie } from "../utils/CookieUtil";
 
-export const MonthPicker = () => {
+type MonthPickerProps = {
+    onChange?: () => void;
+};
+
+export const MonthPicker = (props: MonthPickerProps) => {
     const currentDate = getDateFromCookie();
     const [startDate, setStartDate] = useState(currentDate);
 
     const handleChange = (date: Date) => {
         setStartDate(date);
         setDateCookie(date);
+        if (props.onChange) {
+            props.onChange();
+        }
     };
 
     return (
