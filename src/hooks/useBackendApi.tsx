@@ -9,7 +9,7 @@ export const useBackendApi = ({
     onSuccess = () => {},
     errorCallback = () => {},
 }: {
-    uniqueKey: string;
+    uniqueKey: string | (string | number)[];
     request: QueryFunction;
     onSuccess?: (data: unknown) => void;
     errorCallback?: () => void;
