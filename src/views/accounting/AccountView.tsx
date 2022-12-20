@@ -6,6 +6,7 @@ import { TransactionCard } from "../../components/TransactionCard";
 import { useAccount } from "../../hooks/useAccounts";
 import { useTransactions } from "../../hooks/useTransactions";
 import { TransactionType } from "../../types/ReactTypes";
+import { MonthPicker } from "../../components/MonthPicker";
 
 export default function AccountView() {
     const { accountId } = useParams();
@@ -24,7 +25,8 @@ export default function AccountView() {
         onError: navigateToOverview,
     });
 
-    const { data: transactionList, isSuccess } = useTransactions(accountIdInt);
+    const { transactionList, isSuccess, refetch } =
+        useTransactions(accountIdInt);
 
     if (isLoading) {
         return <Loader />;
@@ -32,6 +34,7 @@ export default function AccountView() {
 
     return (
         <>
+            <MonthPicker onChange={refetch} />
             <Stack spacing="12">
                 <AccountCard
                     id={data?.data.id}

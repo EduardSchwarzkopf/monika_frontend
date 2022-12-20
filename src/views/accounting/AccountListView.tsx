@@ -7,14 +7,17 @@ import {
     useColorModeValue,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { AccountCard, AccountCardProps } from "../../components/AccountCard";
+import { MonthPicker } from "../../components/MonthPicker";
 import { useAccountList } from "../../hooks/useAccounts";
 
 export function AccountListView() {
     const { isLoading, data } = useAccountList();
     const [total, setTotal] = useState(0);
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const bgColor = useColorModeValue("white", "gray.800");
 
     useEffect(() => {
@@ -30,8 +33,14 @@ export function AccountListView() {
     if (isLoading) {
         return <Spinner />;
     }
+
+    const handleDateChange = () => {
+        queryClient.refetchQueries({ queryKey: ["transactions"] });
+    };
+
     return (
         <Stack spacing="4">
+            <MonthPicker onChange={handleDateChange} />
             <Card bg={bgColor}>
                 <CardBody>
                     <Text>Total: {total}€</Text>

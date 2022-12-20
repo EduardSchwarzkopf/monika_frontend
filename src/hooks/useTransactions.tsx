@@ -1,19 +1,26 @@
 import { TransactionsService } from "../service/accounting/TransactionsService";
+import { getDateFromCookie } from "../utils/CookieUtil";
 import { useBackendApi } from "./useBackendApi";
 
 export const useTransactions = (accountId: number) => {
-    // TODO: get start and end from cookie
-    const date_start = new Date("2022-01-02T05:00:21.294Z");
-    const date_end = new Date("2022-02-01T07:00:21.294Z");
+    const [transactionList, setTransactionList] = useState([]);
 
-    return useBackendApi({
+    const { isSuccess, isError, isLoading, error, refetch } = useBackendApi({
         uniqueKey: ["transactions", accountId],
         request: () => {
+            const month = getDateFromCookie();
+            const endOfMonth = new Date(
+                month.getFullYear(),
+                month.getMonth() + 1,
+                0
+            );
+
             return TransactionsService.getAll({
                 account_id: accountId,
-                date_start: date_start.toISOString(),
-                date_end: date_end.toISOString(),
+                date_start: month.toISOString(),
+                date_end: endOfMonth.toISOString(),
             });
         },
     });
+    return { transactionList, isSuccess, isError, isLoading, error, refetch };
 };
