@@ -20,10 +20,8 @@ export const useAccount = ({
     onError?: () => void;
 }) => {
     return useBackendApi({
-        uniqueKey: "account",
-        request: () => {
-            return AccountingService.get(accountId);
-        },
+        uniqueKey: ["account", accountId],
+        request: () => AccountingService.get(accountId),
         onSuccess,
         errorCallback: onError,
     });

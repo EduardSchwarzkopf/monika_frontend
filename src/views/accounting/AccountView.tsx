@@ -25,8 +25,11 @@ export default function AccountView() {
         onError: navigateToOverview,
     });
 
-    const { transactionList, isSuccess, refetch } =
-        useTransactions(accountIdInt);
+    const {
+        data: transactionData,
+        isSuccess,
+        refetch,
+    } = useTransactions(accountIdInt);
 
     if (isLoading) {
         return <Loader />;
@@ -47,7 +50,7 @@ export default function AccountView() {
                     Dateplaceholer
                     <Stack spacing="4">
                         {isSuccess ? (
-                            transactionList?.data.map(
+                            transactionData?.data.map(
                                 (data: TransactionType) => {
                                     return (
                                         <TransactionCard
