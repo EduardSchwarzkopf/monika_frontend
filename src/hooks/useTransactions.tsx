@@ -3,9 +3,7 @@ import { getDateFromCookie } from "../utils/CookieUtil";
 import { useBackendApi } from "./useBackendApi";
 
 export const useTransactions = (accountId: number) => {
-    const [transactionList, setTransactionList] = useState([]);
-
-    const { isSuccess, isError, isLoading, error, refetch } = useBackendApi({
+    return useBackendApi({
         uniqueKey: ["transactions", accountId],
         request: () => {
             const month = getDateFromCookie();
@@ -22,5 +20,4 @@ export const useTransactions = (accountId: number) => {
             });
         },
     });
-    return { transactionList, isSuccess, isError, isLoading, error, refetch };
 };
