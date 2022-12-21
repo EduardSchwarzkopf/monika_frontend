@@ -23,7 +23,6 @@ export const MonthPicker = (props: MonthPickerProps) => {
 
     return (
         <DatePicker
-            wrapperClassName="datePicker"
             selected={startDate}
             dateFormat="MM/yyyy"
             showMonthYearPicker
