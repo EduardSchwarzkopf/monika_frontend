@@ -1,3 +1,5 @@
+import { CalendarIcon } from "@chakra-ui/icons";
+import { Box, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 
@@ -12,8 +14,10 @@ type MonthPickerProps = {
 export const MonthPicker = (props: MonthPickerProps) => {
     const currentDate = getDateFromCookie();
     const [startDate, setStartDate] = useState(currentDate);
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleChange = (date: Date) => {
+        setIsOpen(!isOpen);
         setStartDate(date);
         setDateCookie(date);
         if (props.onChange) {
@@ -21,12 +25,34 @@ export const MonthPicker = (props: MonthPickerProps) => {
         }
     };
 
+    const handleClick = (e) => {
+        e.preventDefault();
+        setIsOpen(!isOpen);
+    };
+
     return (
-        <DatePicker
-            selected={startDate}
-            dateFormat="MM/yyyy"
-            showMonthYearPicker
-            onChange={(date: Date) => handleChange(date)}
-        />
+        <Box mb={4}>
+            <Box>
+                <Button
+                    rightIcon={<CalendarIcon />}
+                    colorScheme="teal"
+                    onClick={handleClick}
+                >
+                    {startDate.toLocaleString("de-DE", {
+                        year: "numeric",
+                        month: "short",
+                    })}
+                </Button>
+            </Box>
+            {isOpen && (
+                <DatePicker
+                    selected={startDate}
+                    dateFormat="MM/yyyy"
+                    showMonthYearPicker
+                    onChange={(date: Date) => handleChange(date)}
+                    inline
+                />
+            )}
+        </Box>
     );
 };
