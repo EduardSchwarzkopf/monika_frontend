@@ -39,27 +39,29 @@ export function AccountListView() {
     };
 
     return (
-        <Stack spacing="4">
+        <>
             <MonthPicker onChange={handleDateChange} />
-            <Card bg={bgColor}>
-                <CardBody>
-                    <Text>Total: {total}€</Text>
-                </CardBody>
-            </Card>
+            <Stack spacing="4">
+                <Card bg={bgColor}>
+                    <CardBody>
+                        <Text>Total: {total}€</Text>
+                    </CardBody>
+                </Card>
 
-            {data?.data.map((item: AccountCardProps) => (
-                <AccountCard
-                    key={item.id}
-                    id={item.id}
-                    label={item.label}
-                    description={item.description}
-                    balance={item.balance}
-                    styles={{
-                        _hover: { bg: "gray.100" },
-                    }}
-                    onClick={() => navigate(`/accounts/${item.id}`)}
-                />
-            ))}
-        </Stack>
+                {data?.data.map((item: AccountCardProps) => (
+                    <AccountCard
+                        key={item.id}
+                        id={item.id}
+                        label={item.label}
+                        description={item.description}
+                        balance={item.balance}
+                        styles={{
+                            _hover: { bg: "gray.100" },
+                        }}
+                        onClick={() => navigate(`/accounts/${item.id}`)}
+                    />
+                ))}
+            </Stack>
+        </>
     );
 }

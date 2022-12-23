@@ -9,9 +9,6 @@ import {
     useColorModeValue,
 } from "@chakra-ui/react";
 import { TransactionType } from "../types/ReactTypes";
-import GreenArrowDownTag from "./GreenArrowDownTag";
-import RedArrowUpTag from "./RedArrowUpTag";
-
 export const TransactionCard = (props: TransactionType) => {
     const isPositive = props.information.amount > 0;
     const bg = useColorModeValue("white", "gray.800");
@@ -21,13 +18,6 @@ export const TransactionCard = (props: TransactionType) => {
             <CardBody>
                 <Box>
                     <Flex alignItems="center">
-                        <Box mr="8">
-                            {isPositive ? (
-                                <GreenArrowDownTag />
-                            ) : (
-                                <RedArrowUpTag />
-                            )}
-                        </Box>
                         <Box maxW={"50%"}>
                             <Heading fontSize={"lg"} fontFamily={"body"}>
                                 {props.information.reference}
