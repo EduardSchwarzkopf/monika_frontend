@@ -14,6 +14,7 @@ import { useQuery } from "react-query";
 import { useUserContext } from "./context/UserContext";
 import Loader from "./components/Loader";
 import { UsersService } from "./service/Users/UsersService";
+import TransactionFormView from "./views/accounting/transactions/TransacationFormView";
 
 export default function AppRouter() {
     const { setUser } = useUserContext();
@@ -59,7 +60,7 @@ export default function AppRouter() {
                         />
                         <Route
                             path="accounts/:accountId/transactions/:transactionId"
-                            element={"Transaction View"}
+                            element={<TransactionFormView />}
                         ></Route>
                     </Route>
                 </Route>
