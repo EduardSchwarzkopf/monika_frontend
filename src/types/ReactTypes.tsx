@@ -11,7 +11,7 @@ export type TransactionType = {
         reference: string;
         amount: number;
         date: Date;
-        subcategory: {
+        category: {
             id: number;
             label: string;
         };
