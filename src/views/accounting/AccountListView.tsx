@@ -35,7 +35,7 @@ export function AccountListView() {
     }
 
     const handleDateChange = () => {
-        queryClient.refetchQueries({ queryKey: ["transactions"] });
+        queryClient.refetchQueries({ queryKey: ["transactionList"] });
     };
 
     return (
