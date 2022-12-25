@@ -23,7 +23,7 @@ export const TransactionCard = (props: TransactionType) => {
                                 {props.information.reference}
                             </Heading>
                             <Text fontWeight={600} color={"gray.400"} mb={4}>
-                                {props.information.subcategory.label}
+                                {props.information.category.label}
                             </Text>
                         </Box>
                         <Spacer />
