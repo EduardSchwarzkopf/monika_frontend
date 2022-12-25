@@ -2,15 +2,29 @@ import { TransactionsService } from "../service/accounting/TransactionsService";
 import { getDateFromCookie } from "../utils/CookieUtil";
 import { useBackendApi } from "./useBackendApi";
 
-export const useTransactions = (accountId: number) => {
+export const useTransaction = ({
+    transactionId,
+}: {
+    transactionId: number | string;
+}) => {
     return useBackendApi({
-        uniqueKey: ["transactions", accountId],
+        uniqueKey: ["transaction", transactionId],
+        request: () => TransactionsService.get(transactionId),
+    });
+};
+
+export const useTransactionList = (accountId: number | string) => {
+    return useBackendApi({
+        uniqueKey: ["transactionList", accountId],
         request: () => {
             const month = getDateFromCookie();
             const endOfMonth = new Date(
                 month.getFullYear(),
                 month.getMonth() + 1,
-                0
+                0,
+                23,
+                59,
+                59
             );
 
             return TransactionsService.getAll({
