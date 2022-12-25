@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 import { TransactionCard } from "../../components/TransactionCard";
 import { useAccount } from "../../hooks/useAccounts";
-import { useTransactions } from "../../hooks/useTransactions";
+import { useTransactionList } from "../../hooks/useTransactions";
 import { TransactionType } from "../../types/ReactTypes";
 import { MonthPicker } from "../../components/MonthPicker";
 import { useQueryClient } from "react-query";
@@ -19,17 +19,15 @@ export default function AccountView() {
         return <></>;
     }
 
-    const accountIdInt = parseInt(accountId);
-
     const { isLoading, data } = useAccount({
-        accountId: accountIdInt,
+        accountId: accountId,
         onError: navigateToOverview,
     });
 
-    const { data: transactionData, isSuccess } = useTransactions(accountIdInt);
+    const { data: transactionData, isSuccess } = useTransactionList(accountId);
 
     const handleDateChange = () => {
-        queryClient.resetQueries({ queryKey: ["transactions"] });
+        queryClient.resetQueries({ queryKey: ["transactionList"] });
     };
 
     if (isLoading) {
