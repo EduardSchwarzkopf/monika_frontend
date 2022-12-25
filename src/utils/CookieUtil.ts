@@ -35,6 +35,7 @@ export const setDateCookie = (
     localDate: Date = new Date(),
     expires: number = 30
 ): void => {
+    localDate.setUTCHours(0, 0, 0, 0);
     setCookie(dateCookieName, localDate.toUTCString(), expires);
 };
 
